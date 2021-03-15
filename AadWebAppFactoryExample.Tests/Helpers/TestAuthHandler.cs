@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Identity.Web;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace AadWebAppFactoryExample.Tests.Helpers
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            var claims = new[] { new Claim(ClaimTypes.Name, "Test user") };
+            var claims = new[] { new Claim(ClaimTypes.Name, "Test user"), new Claim(ClaimConstants.Scp, "access_as_user") };
             var identity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
             var ticket = new AuthenticationTicket(principal, JwtBearerDefaults.AuthenticationScheme);
